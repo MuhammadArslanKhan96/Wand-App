@@ -1,0 +1,13 @@
+[debug] [2022-03-29T07:20:08.660Z] ----------------------------------------------------------------------
+[debug] [2022-03-29T07:20:08.665Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Qist Bazaar\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only functions
+[debug] [2022-03-29T07:20:08.666Z] CLI Version:   10.5.0
+[debug] [2022-03-29T07:20:08.666Z] Platform:      win32
+[debug] [2022-03-29T07:20:08.666Z] Node Version:  v14.15.4
+[debug] [2022-03-29T07:20:08.684Z] Time:          Tue Mar 29 2022 12:20:08 GMT+0500 (Pakistan Standard Time)
+[debug] [2022-03-29T07:20:08.684Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2022-03-29T07:20:08.830Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2022-03-29T07:20:08.831Z] > authorizing via signed-in user (arslan.muhammad@techroad.io)
+[debug] [2022-03-29T07:20:08.831Z] [iam] checking project okapi-68b47 for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2022-03-29T07:20:08.837Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/okapi-68b47:testIamPermissions [none]
+[debug] [2022-03-29T07:20:08.837Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/okapi-68b47:testIamPermissions {"permissions":["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]}
