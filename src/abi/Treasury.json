@@ -1,4 +1,5 @@
-{"abi": [
+{
+  "abi": [
     {
       "inputs": [
         {
@@ -1161,4 +1162,5 @@
       "stateMutability": "nonpayable",
       "type": "function"
     }
-  ]}
+  ]
+}

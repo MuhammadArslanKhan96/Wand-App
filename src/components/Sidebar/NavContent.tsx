@@ -55,7 +55,7 @@ import LogoBox from "./LogoBox";
 
 type NavContentProps = {
   handleDrawerToggle?: () => void;
-  theme: string | undefined
+  theme: string | undefined;
 };
 
 type CustomBond = Bond & Partial<IBondDetails>;
@@ -106,24 +106,23 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle, theme }) =>
           </Box> */}
           <div className="dapp-menu-links">
             <div className="dapp-nav" id="navbarNav">
-              {
-              networkId === NetworkId.BINANCE_TESTNET ||
-              networkId === NetworkId.BINANCE
-              ? (
+              {networkId === NetworkId.BINANCE_TESTNET || networkId === NetworkId.BINANCE ? (
                 <>
-                  <NavItems 
-                  styles={{color: theme === 'light' ? '#000' : '#fff'} } 
-                  to="/dashboard" 
-                  SvgIcon={theme === 'light' ? Stake : StakeLight} 
-                  Label="Dashboard" 
-                  isExternal={false} />
+                  <NavItems
+                    styles={{ color: theme === "light" ? "#000" : "#fff" }}
+                    to="/dashboard"
+                    SvgIcon={theme === "light" ? Stake : StakeLight}
+                    Label="Dashboard"
+                    isExternal={false}
+                  />
 
-                  <NavItems 
-                  styles={{color: theme === 'light' ? '#000' : '#fff'} } 
-                  to="/dashboard" 
-                  SvgIcon={theme === 'light' ? Stake : StakeLight} 
-                  Label="Swap" 
-                  isExternal={false} />
+                  <NavItems
+                    styles={{ color: theme === "light" ? "#000" : "#fff" }}
+                    to="/dashboard"
+                    SvgIcon={theme === "light" ? Stake : StakeLight}
+                    Label="Swap"
+                    isExternal={false}
+                  />
                   {/*<NavItems styles={{color: theme === 'light' ? '#000' : '#fff'} } to="/wrap" SvgIcon={theme === 'light' ? Wrap : WrapLight} Label="Wrap" /> isExternal={false}*/}
                   {/* <NavItems styles={{color: theme === 'light' ? '#000' : '#fff'} } to="/ido-whitelist" SvgIcon={theme === 'light' ? Ido: IdoLight} Label="IDO" isExternal={false} /> */}
                   {/* <NavItems styles={{color: theme === 'light' ? '#000' : '#fff'} } to="https://pancakeswap.finance/swap" SvgIcon={theme === 'light' ? Bridge : BridgeLight} Label="Bridge" isExternal={true} /> */}
@@ -186,7 +185,6 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle, theme }) =>
                     icon="bridge"
                     label={t`Bridge`}
                   /> */}
-                  
 
                   {/* <NavItem href="https://pro.olympusdao.finance/" icon="olympus" label={t`Olympus Pro`} /> */}
                   {/* <NavItem to="/33-together" icon="33-together" label={t`3,3 Together`} /> */}

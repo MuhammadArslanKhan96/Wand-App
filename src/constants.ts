@@ -159,6 +159,7 @@ export const addresses: IAddresses = {
     REDEEM_HELPER_ADDRESS: "0xE1e83825613DE12E8F0502Da939523558f0B819E",
   },
   [NetworkId.AVALANCHE_TESTNET]: {
+    WANDATEST: "0x20bdbd171CED803C851DF09e33eff29d1d06F1A1",
     DAI_ADDRESS: "",
     OHM_ADDRESS: "",
     STAKING_ADDRESS: "", // The new staking contract

@@ -1,4 +1,4 @@
-a{
+a {
   text-decoration: none;
 }
 
@@ -209,7 +209,7 @@ a{
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    text-decoration: none;    
+    text-decoration: none;
 
     label {
       margin-left: 12px;
@@ -218,12 +218,12 @@ a{
       cursor: pointer;
       font-weight: 500;
 
-      &:hover{
-        color: #F4D092 !important;
+      &:hover {
+        color: #f4d092 !important;
       }
     }
 
-    svg{
+    svg {
       fill: white;
     }
   }

@@ -304,7 +304,7 @@ function App() {
   }, [location]);
 
   useEffect(() => {
-    const chainId = NetworkId.FANTOM_TESTNET;
+    const chainId = NetworkId.AVALANCHE_TESTNET;
     console.log("dds", chainId);
     console.log("dds", NETWORKS[chainId].chainName);
     (async () => {
