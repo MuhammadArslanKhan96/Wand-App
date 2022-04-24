@@ -1,108 +1,62 @@
 import "./TreasuryDashboard.scss";
 
-import { Box, Container, Grid, useMediaQuery, Zoom } from "@material-ui/core";
-import { MetricCollection, Paper } from "@olympusdao/component-library";
-import { memo } from "react";
+import { useMediaQuery } from "@material-ui/core";
+import { memo, useEffect } from "react";
+import { useWeb3Context } from "src/hooks";
 
-import {
-  MarketValueGraph,
-  OHMStakedGraph,
-  ProtocolOwnedLiquidityGraph,
-  RiskFreeValueGraph,
-  RunwayAvailableGraph,
-  TotalValueDepositedGraph,
-} from "./components/Graph/Graph";
-import { BackingPerOHM, CircSupply, CurrentIndex, GOHMPrice, MarketCap, OHMPrice } from "./components/Metric/Metric";
+import { ContractHelper } from "../../contractHelper";
+import { abi as MARKETPLACE_ABI } from "./MARKETPLACE_ABI.json";
+import { abi as NFT_ABI } from "./NFT_ABI.json";
+
 const TreasuryDashboard = memo(() => {
+  const { address, networkId } = useWeb3Context();
+
   const isSmallScreen = useMediaQuery("(max-width: 650px)");
   const isVerySmallScreen = useMediaQuery("(max-width: 379px)");
 
+  const NFTCollection = async () => {
+    const web3 = await ContractHelper(networkId);
+    const nft = new web3.eth.Contract(NFT_ABI, "0x6361910E7f9Ea0D5AF5cbecA3b3ba7D9C9FE57c9");
+    const tvl = await nft.methods;
+    console.log(tvl);
+  };
+
+  const createAskOrder = async () => {
+    const web3 = await ContractHelper(networkId);
+    const MP = new web3.eth.Contract(MARKETPLACE_ABI, "0x57CFa123fb1431A1C53A91AfEfCE510D731B909a");
+    const market = await MP.methods
+      .createAskOrder("0x6361910E7f9Ea0D5AF5cbecA3b3ba7D9C9FE57c9", 0, "2")
+      .send({ from: address });
+    console.log({ market });
+  };
+
+  const buyNFT = async () => {
+    const web3 = await ContractHelper(networkId);
+    const MP = new web3.eth.Contract(MARKETPLACE_ABI, "0x57CFa123fb1431A1C53A91AfEfCE510D731B909a");
+    const market = await MP.methods
+      .buyTokenUsingFTM("0x6361910E7f9Ea0D5AF5cbecA3b3ba7D9C9FE57c9", 0)
+      .send({ from: address, value: "2" });
+    console.log({ market });
+  };
+
+  const ViewAskOrder = async () => {
+    const web3 = await ContractHelper(networkId);
+    const MP = new web3.eth.Contract(MARKETPLACE_ABI, "0x57CFa123fb1431A1C53A91AfEfCE510D731B909a");
+    const orders = await MP.methods
+      .viewAsksByCollectionAndTokenIds("0x6361910E7f9Ea0D5AF5cbecA3b3ba7D9C9FE57c9", [0])
+      .call();
+    console.log(orders);
+  };
+
+  useEffect(() => {
+    NFTCollection();
+    // marketplace();
+  });
   return (
     <div id="treasury-dashboard-view" className={`${isSmallScreen && "smaller"} ${isVerySmallScreen && "very-small"}`}>
-      <Container
-        style={{
-          paddingLeft: isSmallScreen || isVerySmallScreen ? "0" : "3.3rem",
-          paddingRight: isSmallScreen || isVerySmallScreen ? "0" : "3.3rem",
-        }}
-      >
-        <Box className="hero-metrics">
-          <Paper className="ohm-card">
-            <MetricCollection>
-              <MarketCap />
-              <OHMPrice />
-              <GOHMPrice />
-              <CircSupply />
-              <BackingPerOHM />
-              <CurrentIndex />
-            </MetricCollection>
-          </Paper>
-        </Box>
-
-        <Zoom in={true}>
-          <Grid container spacing={2} className="data-grid">
-            <Grid item lg={6} md={6} sm={12} xs={12}>
-              <Paper className="ohm-card ohm-chart-card">
-                <TotalValueDepositedGraph />
-              </Paper>
-            </Grid>
-
-            <Grid item lg={6} md={6} sm={12} xs={12}>
-              <Paper className="ohm-card ohm-chart-card">
-                <MarketValueGraph />
-              </Paper>
-            </Grid>
-
-            <Grid item lg={6} md={6} sm={12} xs={12}>
-              <Paper className="ohm-card ohm-chart-card">
-                <RiskFreeValueGraph />
-              </Paper>
-            </Grid>
-
-            <Grid item lg={6} md={6} sm={12} xs={12}>
-              <Paper className="ohm-card ohm-chart-card">
-                <ProtocolOwnedLiquidityGraph />
-              </Paper>
-            </Grid>
-
-            {/*  Temporarily removed until correct data is in the graph */}
-            {/* <Grid item lg={6} md={12} sm={12} xs={12}>
-              <Paper className="ohm-card">
-                <Chart
-                  type="bar"
-                  data={data}
-                  dataKey={["holders"]}
-                  headerText="Holders"
-                  stroke={[theme.palette.text.secondary]}
-                  headerSubText={`${data.length > 0 && data[0].holders}`}
-                  bulletpointColors={bulletpoints.holder}
-                  itemNames={tooltipItems.holder}
-                  itemType={undefined}
-                  infoTooltipMessage={tooltipInfoMessages().holder}
-                  expandedGraphStrokeColor={theme.palette.graphStrokeColor}
-                  scale={undefined}
-                  color={undefined}
-                  stroke={undefined}
-                  dataFormat={undefined}
-                  isPOL={undefined}
-                  isStaked={undefined}
-                />
-              </Paper>
-            </Grid> */}
-
-            <Grid item lg={6} md={6} sm={12} xs={12}>
-              <Paper className="ohm-card ohm-chart-card">
-                <OHMStakedGraph />
-              </Paper>
-            </Grid>
-
-            <Grid item lg={6} md={6} sm={12} xs={12}>
-              <Paper className="ohm-card ohm-chart-card">
-                <RunwayAvailableGraph />
-              </Paper>
-            </Grid>
-          </Grid>
-        </Zoom>
-      </Container>
+      <button onClick={createAskOrder}>Create Ask Order</button>
+      <button onClick={ViewAskOrder}>View Ask order</button>
+      <button onClick={buyNFT}>BUY NFT</button>
     </div>
   );
 });
