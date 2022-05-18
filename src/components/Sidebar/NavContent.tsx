@@ -22,29 +22,11 @@ import { NetworkId } from "src/constants";
 import { EnvHelper } from "src/helpers/Environment";
 import { useAppSelector } from "src/hooks";
 import { useWeb3Context } from "src/hooks/web3Context";
-import { Bond } from "src/lib/Bond";
-import { IBondDetails } from "src/slices/BondSlice";
-import { getAllBonds, getUserNotes } from "src/slices/BondSliceV2";
-import { DisplayBondDiscount } from "src/views/BondV2/BondV2";
 
 import { ReactComponent as OkapiIcon } from "../../assets/icons/okapi-nav-header.svg";
 import { ReactComponent as OkapiIconLight } from "../../assets/icons/okapi-nav-headerLight.svg";
 import { ReactComponent as Stake } from "src/assets/icons/Stake.svg";
 import { ReactComponent as StakeLight } from "src/assets/icons/StakeLight.svg";
-import { ReactComponent as Bridge } from "../../assets/icons/Bridge.svg";
-import { ReactComponent as BridgeLight } from "../../assets/icons/Bridge-light.svg";
-import { ReactComponent as Wrap } from "../../assets/icons/Wrap.svg";
-import { ReactComponent as WrapLight } from "../../assets/icons/Wrap-light.svg";
-import { ReactComponent as Governance } from "../../assets/icons/Governance.svg";
-import { ReactComponent as GovernanceLight } from "../../assets/icons/Governance-light.svg";
-import { ReactComponent as Forum } from "../../assets/icons/Forum.svg";
-import { ReactComponent as ForumLight } from "../../assets/icons/Forum-light.svg";
-import { ReactComponent as Docs } from "../../assets/icons/Docs.svg";
-import { ReactComponent as DocsLight } from "../../assets/icons/Docs-light.svg";
-import { ReactComponent as Ido } from "../../assets/icons/ido.svg";
-import { ReactComponent as IdoLight } from "../../assets/icons/idoLight.svg";
-import { ReactComponent as MyNft } from "../../assets/icons/MyNft.svg";
-import { ReactComponent as MyNftLight } from "../../assets/icons/MyNftLight.svg";
 import useBonds from "../../hooks/Bonds";
 import WalletAddressEns from "../TopBar/Wallet/WalletAddressEns";
 import externalUrls from "./externalUrls";
@@ -58,7 +40,6 @@ type NavContentProps = {
   theme: string | undefined
 };
 
-type CustomBond = Bond & Partial<IBondDetails>;
 
 const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle, theme }) => {
   const { networkId, address, provider } = useWeb3Context();
@@ -67,7 +48,6 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle, theme }) =>
   const location = useLocation();
   const dispatch = useDispatch();
 
-  const bondsV2 = useAppSelector(state => state.bondingV2.indexes.map(index => state.bondingV2.bonds[index]));
 
   useEffect(() => {
     setIsMounted(true);
@@ -79,21 +59,8 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle, theme }) =>
     }
   }, [location]);
 
-  useEffect(() => {
-    const interval = setTimeout(() => {
-      dispatch(getAllBonds({ address, networkID: networkId, provider }));
-      // dispatch(getUserNotes({ address, networkID: networkId, provider }));
-    }, 60000);
-    return () => clearTimeout(interval);
-  });
 
-  const sortedBonds = bondsV2
-    .filter(bond => bond.soldOut === false)
-    .sort((a, b) => {
-      return a.discount > b.discount ? -1 : b.discount > a.discount ? 1 : 0;
-    });
 
-  bonds.sort((a: CustomBond, b: CustomBond) => b.bondDiscount! - a.bondDiscount!);
   return (
     <Paper className="dapp-sidebar">
       <Box className="dapp-sidebar-inner" display="flex" justifyContent="space-between" flexDirection="column">
@@ -113,17 +80,17 @@ const NavContent: React.FC<NavContentProps> = ({ handleDrawerToggle, theme }) =>
                 <>
                   <NavItems 
                   styles={{color: theme === 'light' ? '#000' : '#fff'} } 
-                  to="/dashboard" 
+                  to="/mint" 
                   SvgIcon={theme === 'light' ? Stake : StakeLight} 
-                  Label="Dashboard" 
+                  Label="Mint" 
                   isExternal={false} />
 
-                  <NavItems 
+                  {/* <NavItems 
                   styles={{color: theme === 'light' ? '#000' : '#fff'} } 
                   to="/dashboard" 
                   SvgIcon={theme === 'light' ? Stake : StakeLight} 
                   Label="Swap" 
-                  isExternal={false} />
+                  isExternal={false} /> */}
                   {/*<NavItems styles={{color: theme === 'light' ? '#000' : '#fff'} } to="/wrap" SvgIcon={theme === 'light' ? Wrap : WrapLight} Label="Wrap" /> isExternal={false}*/}
                   {/* <NavItems styles={{color: theme === 'light' ? '#000' : '#fff'} } to="/ido-whitelist" SvgIcon={theme === 'light' ? Ido: IdoLight} Label="IDO" isExternal={false} /> */}
                   {/* <NavItems styles={{color: theme === 'light' ? '#000' : '#fff'} } to="https://pancakeswap.finance/swap" SvgIcon={theme === 'light' ? Bridge : BridgeLight} Label="Bridge" isExternal={true} /> */}

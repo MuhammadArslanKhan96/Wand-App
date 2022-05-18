@@ -13,38 +13,24 @@ import useBonds from "./hooks/Bonds";
 import { useWeb3Context, useAppSelector } from "./hooks";
 import useSegmentAnalytics from "./hooks/useSegmentAnalytics";
 import { segmentUA } from "./helpers/userAnalyticHelpers";
-import { shouldTriggerSafetyCheck } from "./helpers";
 import { calcBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
 import { loadAccountDetails, calculateUserBondDetails, getMigrationAllowances } from "./slices/AccountSlice";
 import { getZapTokenBalances } from "./slices/ZapSlice";
-import { info } from "./slices/MessagesSlice";
 
-import {
-  TreasuryDashboard,
-  Zap,
-  Wrap,
-  V1Stake,
-  CausesDashboard,
-  DepositYield,
-  RedeemYield,
-  BondV2,
-  ChooseBondV2,
-} from "./views";
+import TreasuryDashboard from "./views/TreasuryDashboard/TreasuryDashboard";
 import Sidebar from "./components/Sidebar/Sidebar";
 import TopBar from "./components/TopBar/TopBar";
 import CallToAction from "./components/CallToAction/CallToAction";
 import NavDrawer from "./components/Sidebar/NavDrawer";
 import Messages from "./components/Messages/Messages";
-import NotFound from "./views/404/NotFound";
 import MigrationModal from "src/components/Migration/MigrationModal";
 import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
 import { useGoogleAnalytics } from "./hooks/useGoogleAnalytics";
-import ProjectInfo from "./views/Give/ProjectInfo";
 import projectData from "src/views/Give/projects.json";
-import { getAllBonds } from "./slices/BondSliceV2";
+// import { getAllBonds } from "./slices/BondSliceV2";
 import { NetworkId, NETWORKS } from "./constants";
 import MigrationModalSingle from "./components/Migration/MigrationModalSingle";
 import Web3 from "web3";
@@ -121,7 +107,7 @@ function App() {
 
   const { bonds, expiredBonds } = useBonds(networkId);
 
-  const bondIndexes = useAppSelector(state => state.bondingV2.indexes);
+  // const bondIndexes = useAppSelector(state => state.bondingV2.indexes);
 
   async function loadDetails(whichDetails: string) {
     // NOTE (unbanksy): If you encounter the following error:
@@ -153,7 +139,7 @@ function App() {
             dispatch(calcBondDetails({ bond, value: "", provider: loadProvider, networkID: networkId }));
           }
         });
-        dispatch(getAllBonds({ provider: loadProvider, networkID: networkId, address }));
+        // dispatch(getAllBonds({ provider: loadProvider, networkID: networkId, address }));
       }
     },
     [networkId, address],
@@ -261,9 +247,9 @@ function App() {
       // then user DOES NOT have a wallet
       setWalletChecked(true);
     }
-    if (shouldTriggerSafetyCheck()) {
-      dispatch(info("Safety Check: Always verify you're on app.okapi.money!"));
-    }
+    // if (shouldTriggerSafetyCheck()) {
+    //   dispatch(info("Safety Check: Always verify you're on app.okapi.money!"));
+    // }
   }, []);
 
   // this useEffect fires on state change from above. It will ALWAYS fire AFTER
@@ -304,9 +290,9 @@ function App() {
   }, [location]);
 
   useEffect(() => {
-    const chainId = NetworkId.FANTOM_TESTNET;
+    const chainId = NetworkId.CRONOS_TESTNET;
     console.log("dds", chainId);
-    console.log("dds", NETWORKS[chainId].chainName);
+    // console.log("dds", NETWORKS[chainId].chainName);
     (async () => {
       if (window?.ethereum?.networkVersion !== chainId) {
         try {
@@ -379,95 +365,19 @@ function App() {
               <MyNft />
             </Route> */}
 
-            <Route exact path="/dashboard">
+            <Route exact path="/mint">
               <TreasuryDashboard />
             </Route>
 
             <Route exact path="/">
               {/* Hided temporary for whitelist and ido */}
               {/* <Redirect to="/stake" /> */}
-              <Redirect to="/dashboard" />
-            </Route>
-
-            <Route path="/stake">
-              <Redirect to="/ido-whitelist" />
-              {/* if newAssets or 0 assets */}
-              {/* Hided temporary for whitelist and ido */}
-              {/* {newAssetsDetected || (!newAssetsDetected && !oldAssetsDetected) || !oldAssetsEnoughToMigrate ? (
-                <Stake />
-              ) : (
-                <V1Stake
-                  hasActiveV1Bonds={hasActiveV1Bonds}
-                  oldAssetsDetected={oldAssetsDetected}
-                  setMigrationModalOpen={setMigrationModalOpen}
-                />
-              )} */}
-            </Route>
-
-            <Route path="/v1-stake">
-              <V1Stake
-                hasActiveV1Bonds={hasActiveV1Bonds}
-                oldAssetsDetected={oldAssetsDetected}
-                setMigrationModalOpen={setMigrationModalOpen}
-              />
-            </Route>
-
-            <Route exact path="/give">
-              <CausesDashboard />
-            </Route>
-            <Redirect from="/olympusgive" to="/give" />
-            <Redirect from="/tyche" to="/give" />
-            <Redirect from="/olygive" to="/give" />
-            <Redirect from="/olympusdaogive" to="/give" />
-            <Redirect from="/ohmgive" to="/give" />
-
-            <Route path="/give/projects">
-              {projects.map(project => {
-                return (
-                  <Route exact key={project.slug} path={`/give/projects/${project.slug}`}>
-                    <ProjectInfo project={project} />
-                  </Route>
-                );
-              })}
-            </Route>
-
-            <Route exact path="/give/donations">
-              <DepositYield />
-            </Route>
-
-            <Route exact path="/give/redeem">
-              <RedeemYield />
-            </Route>
-
-            <Route path="/wrap">
-              <Route exact path={`/wrap`}>
-                <Wrap />
-              </Route>
-            </Route>
-
-            <Route path="/zap">
-              <Route exact path={`/zap`}>
-                <Zap />
-              </Route>
+              <Redirect to="/mint" />
             </Route>
 
             {/* <Route path="/33-together">
               <PoolTogether />
             </Route> */}
-
-            <Redirect from="/bonds-v1" to="/bonds" />
-
-            <Route path="/bonds">
-              {bondIndexes.map(index => {
-                return (
-                  <Route exact key={index} path={`/bonds/${index}`}>
-                    <BondV2 index={index} />
-                  </Route>
-                );
-              })}
-              <ChooseBondV2 />
-            </Route>
-            <Route component={NotFound} />
           </Switch>
         </div>
         {hasDust ? (

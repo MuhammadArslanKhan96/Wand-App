@@ -46,6 +46,9 @@ export enum NetworkId {
   BINANCE = 56,
   BINANCE_TESTNET = 97,
 
+  CRONOS = 25,
+  CRONOS_TESTNET = 338,
+
   Localhost = 1337,
 }
 
@@ -448,6 +451,20 @@ export const NETWORKS: { [key: number]: INetwork } = {
     image: polygon,
     imageAltText: "Polygon Logo",
     uri: () => NodeHelper.getMainnetURI(NetworkId.BINANCE),
+  },
+  [NetworkId.CRONOS]: {
+    chainName: "CRONOS",
+    chainId: 338,
+    nativeCurrency: {
+      name: "cronos",
+      symbol: "TCRO",
+      decimals: 18,
+    },
+    rpcUrls: ["https://evm-t3.cronos.org"],
+    blockExplorerUrls: ["https://cronos.org/explorer/testnet3"],
+    image: polygon,
+    imageAltText: "Polygon Logo",
+    uri: () => NodeHelper.getMainnetURI(NetworkId.CRONOS),
   },
 };
 
