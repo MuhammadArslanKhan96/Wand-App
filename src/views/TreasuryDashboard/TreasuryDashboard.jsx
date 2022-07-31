@@ -9,6 +9,7 @@ import { useWeb3Context } from "src/hooks";
 import { ContractHelper } from "../../contractHelper";
 // import { abi as MARKETPLACE_ABI } from "./MARKETPLACE_ABI.json";
 import { abi as CRONOS_ABI } from "./CRONOS_ABI.json";
+import Staking from "./Staking";
 // import { abi as IERC_20 } from "src/abi/IERC20.json";
 const Contract = "0x708adC59b1039605FFec8FeF4551476607aCD8ca";
 
@@ -281,6 +282,8 @@ const TreasuryDashboard = memo(() => {
               );
             })}
       </div> */}
+
+      <Staking />
     </div>
   );
 });
